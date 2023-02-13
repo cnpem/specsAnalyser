@@ -601,3 +601,54 @@ record(ai, "$(P)$(R)STEP_SIZE_RBV")
   field(PREC, "5")
 }
 
+# Start value in logical
+record(ao, "$(P)$(R)START") 
+{
+  field(DESC, "Start value in logical")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT) 0)SPECS_START")
+}
+
+# Start value in logical
+record(ai, "$(P)$(R)START_RBV") 
+{
+  field(DESC, "Start value in logical Readback")
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT) 0)SPECS_START")
+  field(SCAN, "I/O Intr")
+}
+
+# End value in logical
+record(ao, "$(P)$(R)END") 
+{
+  field(DESC, "End value in logical")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT) 0)SPECS_END")
+}
+
+# End value in logical
+record(ai, "$(P)$(R)END_RBV") 
+{
+  field(DESC, "End value in logical Readback")
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT) 0)SPECS_END")
+  field(SCAN, "I/O Intr")
+}
+
+# Scan variable (as string)
+record(mbbo, "$(P)$(R)SCAN_VAR") 
+{
+  field(DESC, "Scan variable")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)SPECS_SCAN_VAR")
+  field(VAL,  "0")
+}
+
+# Scan variable (as string)
+record(mbbi, "$(P)$(R)SCAN_VAR_RBV") 
+{
+  field(DESC, "Scan variable Readback")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)SPECS_SCAN_VAR")
+  field(SCAN, "I/O Intr")
+}
