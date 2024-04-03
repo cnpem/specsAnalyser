@@ -529,11 +529,11 @@ void SpecsAnalyser::specsAnalyserTask()
               //   I beleive its not required any more (SpecsLab 4.30 appears happy without it) 
               //     3/8/17 This is still causing problems so re-introduced a small delay
               // Wait for the dwell time to elapse to guarantee data will be ready to read out.
-              //double period;
-              //getDoubleParam(SPECSDataDelayMax_, &period);
-              //period = fmin(acquireTime,period);
-              //debug(functionName, "epicsThreadSleep", period);
-              //epicsThreadSleep(period); 
+              double period;
+              getDoubleParam(SPECSDataDelayMax_, &period);
+              period = fmin(acquireTime,period);
+              debug(functionName, "epicsThreadSleep", period);
+              epicsThreadSleep(period); 
               readSpectrumDataInfo(SPECSOrdinateRange);
             }
             
@@ -647,13 +647,6 @@ void SpecsAnalyser::specsAnalyserTask()
         // End of the iteration loop
       }
 
-      /*
-      pNDImage = (double *)(pImage->pData);
-      for (int x = 0; x < energyChannels*nonEnergyChannels; x++){
-        pNDImage[x] = image[x];
-      }
-      */
-
       pImage->dims[0].size = dims[0];
       pImage->dims[1].size = dims[1];
 
@@ -687,15 +680,9 @@ void SpecsAnalyser::specsAnalyserTask()
       // Free the image buffer
       pImage->release();
 
-      //printf("%i,%i\n",dims[0],dims[1]);
-      //printf("%d\n",pNDImage[0]);
-      //printf("%d\n",pNDImage[9999]);
-      //printf(dataType);
-
       if (status != asynError){
         // Check to see if acquisition is complete
         if (numImagesCounter >= numImages){
-          printf("Acquisition completed\n");
           setIntegerParam(ADAcquire, 0);
           debug(functionName, "Acquisition completed");
         }
@@ -720,7 +707,6 @@ void SpecsAnalyser::specsAnalyserTask()
       }
       else {
       acquire = 0;
-      printf("Acquisition Error\n");
       setIntegerParam(ADAcquire, 0);
       debug(functionName, "Acquisition Error");
       callParamCallbacks();
