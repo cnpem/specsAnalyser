@@ -42,6 +42,7 @@
 #define SPECS_RUN_SFAT 1
 #define SPECS_RUN_FRR  2
 #define SPECS_RUN_FE   3
+#define SPECS_RUN_LVS  4
 
 // SPECS Types
 #define SPECS_TYPE_DOUBLE  "double"
@@ -56,6 +57,7 @@
 #define SPECS_CMD_DEFINE_SFAT         "DefineSpectrumSFAT"
 #define SPECS_CMD_DEFINE_FRR          "DefineSpectrumFRR"
 #define SPECS_CMD_DEFINE_FE           "DefineSpectrumFE"
+#define SPECS_CMD_DEFINE_LVS          "DefineSpectrumLVS"
 #define SPECS_CMD_VALIDATE            "ValidateSpectrum"
 #define SPECS_CMD_START               "Start"
 #define SPECS_CMD_PAUSE               "Pause"
@@ -116,6 +118,9 @@
 #define SPECSRemainingTimeIterationString    "SPECS_RMG_TIME_ITER"
 #define SPECSAcqSpectrumString               "SPECS_ACQ_SPECTRUM"
 #define SPECSAcqImageString                  "SPECS_ACQ_IMAGE"
+#define SPECSStartString                     "SPECS_START"
+#define SPECSEndString                       "SPECS_END"
+#define SPECSScanVariableString              "SPECS_SCAN_VAR"
 
 #define SPECSRunModeString                   "SPECS_RUN_MODE"
 #define SPECSDefineString                    "SPECS_DEFINE"
@@ -158,13 +163,14 @@ class SpecsAnalyser: public ADDriver
     asynStatus defineSpectrumSFAT();
     asynStatus defineSpectrumFRR();
     asynStatus defineSpectrumFE();
+    asynStatus defineSpectrumLVS();
     asynStatus readAcquisitionData(int startIndex, int endIndex, std::vector<double> &values);
     asynStatus sendStartCommand(bool safeAfter);
     asynStatus sendSimpleCommand(const std::string& command, std::map<std::string, std::string> *data = NULL);
     asynStatus readDeviceVisibleName();
     asynStatus setupEPICSParameters();
     asynStatus setupEPICSDevices();
-    asynStatus getAnalyserParameterType(const std::string& name, SPECSValueType_t &value);
+    asynStatus getAnalyserParameterInfo(const std::string& name, SPECSValueType_t &valType, std::string &valUnit);
     asynStatus getAnalyserParameter(const std::string& name, int &value);
     asynStatus getAnalyserParameter(const std::string& name, double &value);
     asynStatus getAnalyserParameter(const std::string& name, std::string &value);
@@ -224,6 +230,9 @@ class SpecsAnalyser: public ADDriver
     int SPECSRemainingTimeIteration_;
     int SPECSAcqSpectrum_;
     int SPECSAcqImage_;
+    int SPECSStart_;
+    int SPECSEnd_;
+    int SPECSScanVariable_;
 
     int SPECSRunMode_;
     int SPECSDefine_;
@@ -246,6 +255,7 @@ class SpecsAnalyser: public ADDriver
     std::vector<std::string>           lensModes_;
     std::vector<std::string>           scanRanges_;
     std::vector<std::string>           runModes_;
+    std::vector<std::string>           scanVariable_;
     std::map<std::string, std::string> paramMap_;
     std::map<int, std::string>         paramIndexes_;
     bool                               firstConnect_;
