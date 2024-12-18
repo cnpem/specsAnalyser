@@ -1,0 +1,14 @@
+services:
+  ioc:
+    image: ghcr.io/cnpem/specsanalyser
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+      target: dynamic-link
+      labels:
+        org.opencontainers.image.source: https://github.com/cnpem/specsAnalyser
+      args:
+        REPONAME: SpecsAnalyser
+        RUNDIR: /opt/SpecsAnalyser
+        BUILD_STAGE_VERSION: latest
+        RUNTIME_PACKAGES: libxml2-dev libtiff5
