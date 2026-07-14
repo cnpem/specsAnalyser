@@ -168,13 +168,6 @@ SpecsAnalyser::SpecsAnalyser(const char *portName, const char *driverPort,
     if (status == asynSuccess) {
         // Attempt connection
         status |= makeConnection();
-        // Failed connection is not terminal here
-        // if (status != asynSuccess){
-        //  setIntegerParam(ADStatus, ADStatusError);
-        //  setStringParam(ADStatusMessage, "Not connected to SPECS");
-        //  callParamCallbacks();
-        //  status = asynSuccess;
-        //}
 
         // Read in the lens modes
         status |= readSpectrumParameter(SPECSLensMode_);
@@ -541,11 +534,6 @@ void SpecsAnalyser::specsAnalyserTask()
                 sendSimpleCommand(SPECS_CMD_GET_STATUS, &data);
                 pNDImage = (double *)(pImage->pData);
 
-                // while (acquire && status == asynSuccess &&
-                // (((data["ControllerState"] != "finished") &&
-                // (data["ControllerState"] != "aborted") &&
-                // (data["ControllerState"] != "error")) || (numDataPoints !=
-                // currentDataPoint))){
                 while (acquire && status == asynSuccess
                     && (((data["ControllerState"] != "finished")
                             || (currentDataPoint < energyChannels))
@@ -606,7 +594,6 @@ void SpecsAnalyser::specsAnalyserTask()
                             > maxValues)
                             readEndDataPoint = currentDataPoint
                                 + (maxValues / nonEnergyChannels);
-                        // values.reserve((readEndDataPoint-currentDataPoint)*nonEnergyChannels);
                         // // unfortunately this doesnt seem to help speed
                         // things up
                         readAcquisitionData(
@@ -626,9 +613,6 @@ void SpecsAnalyser::specsAnalyserTask()
                             // Not enough points in values[] array
                             debug(functionName,
                                 "**** Received too few data points ***");
-                            // readEndDataPoint =
-                            // numRxDataPoints/nonEnergyChannels +
-                            // currentDataPoint;
                             sendSimpleCommand(SPECS_CMD_ABORT);
                             status = asynError;
                             setIntegerParam(ADAcquire, 0);
@@ -663,12 +647,6 @@ void SpecsAnalyser::specsAnalyserTask()
 
                             for (int x = currentDataPoint; x < readEndDataPoint;
                                 x++) {
-                                // Uncomment next 3 lines for (slow) debug print
-                                // out of all data points
-                                // char tmpMsg[300];
-                                // sprintf(tmpMsg, "index=%d image[%d,%d]=%lf",
-                                // index,x,y,values[index]);
-                                // debug(functionName,tmpMsg);
                                 // If this is the first iteration set the image
                                 // values, otherwise add them to the current
                                 // values
