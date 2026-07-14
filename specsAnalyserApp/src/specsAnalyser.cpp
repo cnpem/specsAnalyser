@@ -1138,29 +1138,33 @@ asynStatus SpecsAnalyser::validateSpectrum()
         decode.clear();
         setDoubleParam(SPECSPassEnergy_, dvalue);
         // Check the LensMode
-        lookup = data["LensMode"];
-        cleanString(lookup, "\"");
-        ivalue = -1;
-        index = 0;
-        while ((index < lensModes_.size()) && (ivalue == -1)) {
-            if (lensModes_[index] == lookup) {
-                ivalue = index;
+        if (data.find("LensMode") != data.end()) {
+            lookup = data["LensMode"];
+            cleanString(lookup, "\"");
+            ivalue = -1;
+            index = 0;
+            while ((index < lensModes_.size()) && (ivalue == -1)) {
+                if (lensModes_[index] == lookup) {
+                    ivalue = index;
+                }
+                index++;
             }
-            index++;
+            setIntegerParam(SPECSLensMode_, ivalue);
         }
-        setIntegerParam(SPECSLensMode_, ivalue);
         // Check the ScanRange
-        lookup = data["ScanRange"];
-        cleanString(lookup, "\"");
-        ivalue = -1;
-        index = 0;
-        while ((index < scanRanges_.size()) && (ivalue == -1)) {
-            if (scanRanges_[index] == lookup) {
-                ivalue = index;
+        if (data.find("ScanRange") != data.end()) {
+            lookup = data["ScanRange"];
+            cleanString(lookup, "\"");
+            ivalue = -1;
+            index = 0;
+            while ((index < scanRanges_.size()) && (ivalue == -1)) {
+                if (scanRanges_[index] == lookup) {
+                    ivalue = index;
+                }
+                index++;
             }
-            index++;
+            setIntegerParam(SPECSScanRange_, ivalue);
         }
-        setIntegerParam(SPECSScanRange_, ivalue);
 
         // ***** WORKAROUND FOR FIXED ENERGY START AND END *******
         int runMode = 0;
