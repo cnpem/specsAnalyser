@@ -123,6 +123,9 @@ SpecsAnalyser::SpecsAnalyser(const char *portName, const char *driverPort,
     createParam(
         SPECSAcqSpectrumString, asynParamFloat64Array, &SPECSAcqSpectrum_);
     createParam(SPECSAcqImageString, asynParamFloat64Array, &SPECSAcqImage_);
+    createParam(SPECSStartString, asynParamFloat64, &SPECSStart_);
+    createParam(SPECSEndString, asynParamFloat64, &SPECSEnd_);
+    createParam(SPECSScanVariableString, asynParamInt32, &SPECSScanVariable_);
 
     createParam(SPECSRunModeString, asynParamInt32, &SPECSRunMode_);
     createParam(SPECSDefineString, asynParamInt32, &SPECSDefine_);

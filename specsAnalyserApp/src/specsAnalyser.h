@@ -101,6 +101,9 @@
 #define SPECSRemainingTimeIterationString "SPECS_RMG_TIME_ITER"
 #define SPECSAcqSpectrumString "SPECS_ACQ_SPECTRUM"
 #define SPECSAcqImageString "SPECS_ACQ_IMAGE"
+#define SPECSStartString "SPECS_START"
+#define SPECSEndString "SPECS_END"
+#define SPECSScanVariableString "SPECS_SCAN_VAR"
 
 #define SPECSRunModeString "SPECS_RUN_MODE"
 #define SPECSDefineString "SPECS_DEFINE"
@@ -218,6 +221,9 @@ protected:
     int SPECSRemainingTimeIteration_;
     int SPECSAcqSpectrum_;
     int SPECSAcqImage_;
+    int SPECSStart_;
+    int SPECSEnd_;
+    int SPECSScanVariable_;
 
     int SPECSRunMode_;
     int SPECSDefine_;
