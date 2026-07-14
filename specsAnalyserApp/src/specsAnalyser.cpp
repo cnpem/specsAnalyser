@@ -1106,6 +1106,16 @@ asynStatus SpecsAnalyser::validateSpectrum()
         decode >> ivalue;
         decode.clear();
         setIntegerParam(SPECSSamplesIteration_, ivalue);
+        // Check the Start
+        decode.str(data["Start"]);
+        decode >> ivalue;
+        decode.clear();
+        setDoubleParam(SPECSStart_, ivalue);
+        // Check the End
+        decode.str(data["End"]);
+        decode >> ivalue;
+        decode.clear();
+        setDoubleParam(SPECSEnd_, ivalue);
         // Check the DwellTime
         decode.str(data["DwellTime"]);
         decode >> dvalue;
