@@ -783,6 +783,15 @@ void SpecsAnalyser::specsAnalyserTask()
                         this->lock();
                     }
                 }
+            } else {
+                acquire = 0;
+                setIntegerParam(ADAcquire, 0);
+                debug(functionName, "Acquisition Error");
+                callParamCallbacks();
+
+                // Clear all stale data from the last acquisitions
+                // Necessary for the equipment to allow defining new values
+                sendSimpleCommand(SPECS_CMD_CLEAR);
             }
         }
     }
