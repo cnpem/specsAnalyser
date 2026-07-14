@@ -563,46 +563,8 @@ void SpecsAnalyser::specsAnalyserTask()
                             readSpectrumDataInfo(SPECSOrdinateRange);
                         }
 
-                        // Request the extra points
-                        // We can limits the size of the read request here to
-                        // request the data in chunks. DLS detector is 900x1000
-                        // so maxValues is set slightly larger thus all data can
-                        // be read with a single request if available (as occurs
-                        // in snapshot mode)
-                        const int maxValues = 1000000;
-                        readEndDataPoint = numDataPoints;
-                        if ((readEndDataPoint - currentDataPoint)
-                                * nonEnergyChannels
-                            > maxValues)
-                            readEndDataPoint = currentDataPoint
-                                + (maxValues / nonEnergyChannels);
-                        // // unfortunately this doesnt seem to help speed
-                        // things up
-                        readAcquisitionData(
-                            currentDataPoint, (readEndDataPoint - 1), values);
-
-                        // Loop over the vector of newly acquired points and
-                        // store in the correct image location
-                        int index = 0;
-                        int numRxDataPoints = (int)values.size();
-                        debug(functionName, "Number of samples read",
-                            (readEndDataPoint - currentDataPoint));
                         debug(functionName, "Received data points",
                             (int)values.size());
-                        if (numRxDataPoints
-                            < (readEndDataPoint - currentDataPoint)
-                                * nonEnergyChannels) {
-                            // Not enough points in values[] array
-                            debug(functionName,
-                                "**** Received too few data points ***");
-                            sendSimpleCommand(SPECS_CMD_ABORT);
-                            status = asynError;
-                            setIntegerParam(ADAcquire, 0);
-                            setIntegerParam(ADStatus, ADStatusError);
-                            setStringParam(ADStatusMessage,
-                                "SPECS Receive Error, see log");
-                            continue;
-                        }
 
                         for (int y = 0; y < nonEnergyChannels; y++) {
 
