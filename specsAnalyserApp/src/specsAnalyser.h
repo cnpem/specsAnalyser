@@ -56,6 +56,7 @@
 #define SPECS_CMD_DEFINE_SFAT "DefineSpectrumSFAT"
 #define SPECS_CMD_DEFINE_FRR "DefineSpectrumFRR"
 #define SPECS_CMD_DEFINE_FE "DefineSpectrumFE"
+#define SPECS_CMD_DEFINE_LVS "DefineSpectrumLVS"
 #define SPECS_CMD_VALIDATE "ValidateSpectrum"
 #define SPECS_CMD_START "Start"
 #define SPECS_CMD_PAUSE "Pause"
@@ -142,6 +143,7 @@ public:
     asynStatus defineSpectrumSFAT();
     asynStatus defineSpectrumFRR();
     asynStatus defineSpectrumFE();
+    asynStatus defineSpectrumLVS();
     asynStatus readAcquisitionData(
         int startIndex, int endIndex, std::vector<double> &values);
     asynStatus sendStartCommand(bool safeAfter);

@@ -1190,6 +1190,43 @@ asynStatus SpecsAnalyser::validateSpectrum()
     return status;
 }
 
+asynStatus SpecsAnalyser::defineSpectrumLVS()
+{
+    static const char *functionName = "SpecsAnalyser::defineSpectrumLVS";
+
+    asynStatus status = asynSuccess;
+    std::stringstream command;
+    std::string response = "";
+    std::map<std::string, std::string> data;
+    double dvalue = 0.0;
+    int ivalue = 0;
+
+    command << SPECS_CMD_DEFINE_LVS << " ";
+    getDoubleParam(SPECSStart_, &dvalue);
+    command << "Start:" << dvalue << " ";
+    getDoubleParam(SPECSEnd_, &dvalue);
+    command << "End:" << dvalue << " ";
+    getDoubleParam(SPECSStepWidth_, &dvalue);
+    command << "StepWidth:" << dvalue << " ";
+    getDoubleParam(SPECSKineticEnergy_, &dvalue);
+    command << "KinEnergy:" << dvalue << " ";
+    getDoubleParam(ADAcquireTime, &dvalue);
+    command << "DwellTime:" << dvalue << " ";
+    getDoubleParam(SPECSPassEnergy_, &dvalue);
+    command << "PassEnergy:" << dvalue << " ";
+    getIntegerParam(SPECSLensMode_, &ivalue);
+    command << "LensMode:\"" << lensModes_[ivalue] << "\" ";
+    getIntegerParam(SPECSScanRange_, &ivalue);
+    command << "ScanRange:\"" << scanRanges_[ivalue] << "\" ";
+    getIntegerParam(SPECSScanVariable_, &ivalue);
+    command << "ScanVariable:\"" << scanVariable_[ivalue] << "\"";
+
+    debug(functionName, "Sending command", command.str());
+
+    status = sendSimpleCommand(command.str(), &data);
+    return status;
+}
+
 /**
  * Send the start command to the analyser
  */
