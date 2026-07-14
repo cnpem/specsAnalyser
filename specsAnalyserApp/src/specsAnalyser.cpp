@@ -135,7 +135,6 @@ SpecsAnalyser::SpecsAnalyser(const char *portName, const char *driverPort,
     createParam(SPECSNonEnergyMaxString, asynParamFloat64, &SPECSNonEnergyMax_);
     createParam(SPECSNonEnergyMinString, asynParamFloat64, &SPECSNonEnergyMin_);
     createParam(SPECSSafeStateString, asynParamInt32, &SPECSSafeState_);
-    createParam(SPECSDataDelayMaxString, asynParamFloat64, &SPECSDataDelayMax_);
 
     // Initialise SPECS parameters
     setIntegerParam(SPECSConnected_, 0);
@@ -150,7 +149,6 @@ SpecsAnalyser::SpecsAnalyser(const char *portName, const char *driverPort,
     setDoubleParam(SPECSRemainingTime_, 0.0);
     setStringParam(ADManufacturer, "SPECS");
     setIntegerParam(SPECSSafeState_, 1);
-    setDoubleParam(SPECSDataDelayMax_, 5.0);
 
     if (status == asynSuccess) {
         debug(functionName, "Starting up polling task....");
@@ -560,24 +558,8 @@ void SpecsAnalyser::specsAnalyserTask()
                             setIntegerParam(ADStatus, ADStatusAcquire);
                             setStringParam(
                                 ADStatusMessage, "Acquiring data...");
-                        }
-
-                        // On the first data point read out the ordinate range
-                        // and units (not available until now).
-                        if (currentDataPoint == 0) {
-                            //   This delay was introduced for SpecsLab 4.19
-                            //   because it indicated data was availabe when it
-                            //   wasnt. I beleive its not required any more
-                            //   (SpecsLab 4.30 appears happy without it)
-                            //     3/8/17 This is still causing problems so
-                            //     re-introduced a small delay
-                            // Wait for the dwell time to elapse to guarantee
-                            // data will be ready to read out.
-                            double period;
-                            getDoubleParam(SPECSDataDelayMax_, &period);
-                            period = fmin(acquireTime, period);
-                            debug(functionName, "epicsThreadSleep", period);
-                            epicsThreadSleep(period);
+                            // On the first data point read out the ordinate range
+                            // and units (not available until now).
                             readSpectrumDataInfo(SPECSOrdinateRange);
                         }
 

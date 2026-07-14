@@ -111,7 +111,6 @@
 #define SPECSNonEnergyMinString "SPECS_NON_ENERGY_MIN"
 #define SPECSNonEnergyMaxString "SPECS_NON_ENERGY_MAX"
 #define SPECSSafeStateString "SPECS_SAFE_STATE"
-#define SPECSDataDelayMaxString "SPECS_DATA_DELAY_MAX"
 
 typedef enum {
     SPECSTypeDouble,
@@ -229,8 +228,7 @@ protected:
     int SPECSNonEnergyMin_;
     int SPECSNonEnergyMax_;
     int SPECSSafeState_;
-    int SPECSDataDelayMax_;
-#define LAST_SPECS_PARAM SPECSDataDelayMax_
+#define LAST_SPECS_PARAM SPECSSafeState_
 
 private:
     asynUser *portUser_;

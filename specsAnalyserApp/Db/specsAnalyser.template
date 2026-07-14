@@ -100,24 +100,6 @@ record(bo, "$(P)$(R)ReverseY")
   field(DISA, "1")
 }
 
-record(ao, "$(P)$(R)DATA_DELAY_MAX")
-{
-#   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),0)SPECS_DATA_DELAY_MAX")
-   field(PREC, "3")
-   field(VAL,  "5")
-#   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)DATA_DELAY_MAX_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),0)SPECS_DATA_DELAY_MAX")
-   field(PREC, "3")
-   field(SCAN, "I/O Intr")
-}
-
 record(bo, "$(P)$(R)SAFE_STATE") 
 {
   field(DESC, "Set safe state")
