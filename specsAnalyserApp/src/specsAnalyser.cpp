@@ -529,7 +529,7 @@ void SpecsAnalyser::specsAnalyserTask()
 
             // Loop over the number of exposures (iterations)
             int iteration = 0;
-            while ((iteration < iterations) && (acquire == 1)) {
+            while ((iteration < iterations) && acquire) {
                 // Clear any stale data from previous acquisitions
                 sendSimpleCommand(SPECS_CMD_CLEAR);
                 // Send the start command
