@@ -817,6 +817,20 @@ asynStatus SpecsAnalyser::readEnum(asynUser *pasynUser, char *strings[],
             severities[index] = 0;
         }
         *nIn = index;
+
+    } else if (function == SPECSScanVariable_) {
+        for (index = 0;
+            ((index < (size_t)scanVariable_.size()) && (index < nElements));
+            index++) {
+            if (strings[index]) {
+                free(strings[index]);
+            }
+            strings[index] = epicsStrDup(scanVariable_[index].c_str());
+            debug(functionName, "Reading scan variable", strings[index]);
+            values[index] = index;
+            severities[index] = 0;
+        }
+        *nIn = index;
     } else {
         *nIn = 0;
         status = asynError;
@@ -1129,6 +1143,20 @@ asynStatus SpecsAnalyser::validateSpectrum()
                 index++;
             }
             setIntegerParam(SPECSScanRange_, ivalue);
+        }
+        // Check the ScanVariable
+        if (data.find("ScanVariable") != data.end()) {
+            lookup = data["ScanVariable"];
+            cleanString(lookup, "\"");
+            ivalue = -1;
+            index = 0;
+            while ((index < scanVariable_.size()) && (ivalue == -1)) {
+                if (scanVariable_[index] == lookup) {
+                    ivalue = index;
+                }
+                index++;
+            }
+            setIntegerParam(SPECSScanVariable_, ivalue);
         }
 
         // ***** WORKAROUND FOR FIXED ENERGY START AND END *******
@@ -1574,6 +1602,10 @@ asynStatus SpecsAnalyser::setupEPICSParameters()
                         // This is bad, all cases should have been covered
                         // TODO: Raise this as an error, print debug
                         break;
+                    }
+                    if (valUnit != "") {
+                        scanVariable_.push_back(
+                            iter->second + " [" + valUnit + "]");
                     }
                 }
             }

@@ -245,6 +245,7 @@ private:
     std::vector<std::string> lensModes_;
     std::vector<std::string> scanRanges_;
     std::vector<std::string> runModes_;
+    std::vector<std::string> scanVariable_;
     std::map<std::string, std::string> paramMap_;
     std::map<int, std::string> paramIndexes_;
     bool firstConnect_;
