@@ -146,8 +146,8 @@ public:
         std::map<std::string, std::string> *data = NULL);
     asynStatus readDeviceVisibleName();
     asynStatus setupEPICSParameters();
-    asynStatus getAnalyserParameterType(
-        const std::string &name, SPECSValueType_t &value);
+    asynStatus getAnalyserParameterInfo(
+        const std::string &name, SPECSValueType_t &value, std::string &unit);
     asynStatus getAnalyserParameter(const std::string &name, int &value);
     asynStatus getAnalyserParameter(const std::string &name, double &value);
     asynStatus getAnalyserParameter(

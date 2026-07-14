@@ -1542,13 +1542,14 @@ asynStatus SpecsAnalyser::setupEPICSParameters()
         // the asyn parameter
         std::map<std::string, std::string>::iterator iter;
         SPECSValueType_t valType;
+        std::string valUnit = "";
         int ivalue = 0;
         double dvalue = 0.0;
         std::string svalue = "";
         bool bvalue = false;
         for (iter = paramMap_.begin(); iter != paramMap_.end(); iter++) {
             if (status == asynSuccess) {
-                status = getAnalyserParameterType(iter->second, valType);
+                status = getAnalyserParameterInfo(iter->second, valType, valUnit);
                 if (status == asynSuccess) {
                     int index = 0;
                     // Create the parameter and record the index for future
@@ -1617,10 +1618,10 @@ asynStatus SpecsAnalyser::setupEPICSParameters()
     return status;
 }
 
-asynStatus SpecsAnalyser::getAnalyserParameterType(
-    const std::string &name, SPECSValueType_t &type)
+asynStatus SpecsAnalyser::getAnalyserParameterInfo(
+    const std::string &name, SPECSValueType_t &type, std::string &unit)
 {
-    const char *functionName = "SpecsAnalyser::getAnalyserParameterType";
+    const char *functionName = "SpecsAnalyser::getAnalyserParameterInfo";
     asynStatus status = asynSuccess;
     std::map<std::string, std::string> data;
     std::string cmd = SPECS_CMD_GET_INFO;
@@ -1637,6 +1638,13 @@ asynStatus SpecsAnalyser::getAnalyserParameterType(
             type = SPECSTypeString;
         } else if (data["ValueType"] == SPECS_TYPE_BOOL)
             type = SPECSTypeBool;
+
+        if (data.find("Unit") != data.end()) {
+            data["Unit"].erase(
+                remove(data["Unit"].begin(), data["Unit"].end(), '\"'),
+                data["Unit"].end());
+            unit = data["Unit"];
+        }
     }
     return status;
 }
@@ -2337,7 +2345,7 @@ asynStatus SpecsAnalyser::initDebugger(int initDebug)
     debugMap_["SpecsAnalyser::readAcquisitionData"] = initDebug;
     debugMap_["SpecsAnalyser::sendSimpleCommand"] = initDebug;
     debugMap_["SpecsAnalyser::setupEPICSParameters"] = initDebug;
-    debugMap_["SpecsAnalyser::getAnalyserParameterType"] = initDebug;
+    debugMap_["SpecsAnalyser::getAnalyserParameterInfo"] = initDebug;
     debugMap_["SpecsAnalyser::getAnalyserParameter"] = initDebug;
     debugMap_["SpecsAnalyser::readIntegerData"] = initDebug;
     debugMap_["SpecsAnalyser::readDoubleData"] = initDebug;
@@ -2366,7 +2374,7 @@ asynStatus SpecsAnalyser::debugLevel(const std::string &method, int onOff)
         debugMap_["SpecsAnalyser::readAcquisitionData"] = onOff;
         debugMap_["SpecsAnalyser::sendSimpleCommand"] = onOff;
         debugMap_["SpecsAnalyser::setupEPICSParameters"] = onOff;
-        debugMap_["SpecsAnalyser::getAnalyserParameterType"] = onOff;
+        debugMap_["SpecsAnalyser::getAnalyserParameterInfo"] = onOff;
         debugMap_["SpecsAnalyser::getAnalyserParameter"] = onOff;
         debugMap_["SpecsAnalyser::readIntegerData"] = onOff;
         debugMap_["SpecsAnalyser::readDoubleData"] = onOff;
