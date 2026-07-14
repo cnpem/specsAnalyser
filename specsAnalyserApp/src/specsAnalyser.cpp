@@ -449,11 +449,11 @@ void SpecsAnalyser::specsAnalyserTask()
                 debug(functionName, "Allocating buffers: spectrum malloc ",
                     int(energyChannels * sizeof(epicsFloat64)));
                 // Allocate the required memory to store the image
-                image = (double *)malloc(
+                image = (epicsFloat64 *)malloc(
                     nonEnergyChannels * energyChannels * sizeof(epicsFloat64));
                 // Allocate the required memory to store the spectrum
                 spectrum
-                    = (double *)malloc(energyChannels * sizeof(epicsFloat64));
+                    = (epicsFloat64 *)malloc(energyChannels * sizeof(epicsFloat64));
                 if (image == 0 || spectrum == 0) {
                     status = asynError;
                     debug(functionName, "Allocating buffers: malloc failed");
