@@ -42,6 +42,7 @@
 #define SPECS_RUN_SFAT 1
 #define SPECS_RUN_FRR 2
 #define SPECS_RUN_FE 3
+#define SPECS_RUN_LVS 4
 
 // SPECS Types
 #define SPECS_TYPE_DOUBLE "double"
