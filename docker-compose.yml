@@ -1,0 +1,26 @@
+services:
+  ioc:
+    image: ghcr.io/cnpem/specsanalyser
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+      target: dynamic-link
+      labels:
+        org.opencontainers.image.source: https://github.com/cnpem/specsAnalyser
+      args:
+        RUNTIME_PACKAGES: libxml2 libtiff6
+        IS_MODULE: 1
+        MODULE_NAME: SPECS
+        REPONAME: specsAnalyser
+        RUNDIR: /opt/specsAnalyser/iocBoot/iocspecsAnalyser
+        IS_IOC_AREADETECTOR: true
+        IOC_DBDS:
+          asyn.dbd
+          drvAsynIPPort.dbd
+          specsAnalyserSupport.dbd
+        IOC_LIBS:
+          specs
+          asyn
+        IOC_DBS:
+          $(SPECS)/db/specsAnalyser.template
+          $(SPECS)/db/specsAnalyserDLD.template
