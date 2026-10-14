@@ -100,24 +100,6 @@ record(bo, "$(P)$(R)ReverseY")
   field(DISA, "1")
 }
 
-record(ao, "$(P)$(R)DATA_DELAY_MAX")
-{
-#   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),0)SPECS_DATA_DELAY_MAX")
-   field(PREC, "3")
-   field(VAL,  "5")
-#   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)DATA_DELAY_MAX_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),0)SPECS_DATA_DELAY_MAX")
-   field(PREC, "3")
-   field(SCAN, "I/O Intr")
-}
-
 record(bo, "$(P)$(R)SAFE_STATE") 
 {
   field(DESC, "Set safe state")
@@ -601,3 +583,55 @@ record(ai, "$(P)$(R)STEP_SIZE_RBV")
   field(PREC, "5")
 }
 
+
+############## Spectrum LVS variables ##############
+
+# Start value in logical voltage unit
+record(ao, "$(P)$(R)START")
+{
+  field(DESC, "Start value")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT) 0)SPECS_START")
+}
+
+record(ai, "$(P)$(R)START_RBV")
+{
+  field(DESC, "Start value Readback")
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT) 0)SPECS_START")
+  field(SCAN, "I/O Intr")
+}
+
+# End value in logical voltage unit
+record(ao, "$(P)$(R)END")
+{
+  field(DESC, "End value")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT) 0)SPECS_END")
+}
+
+record(ai, "$(P)$(R)END_RBV")
+{
+  field(DESC, "End value Readback")
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT) 0)SPECS_END")
+  field(SCAN, "I/O Intr")
+}
+
+# Scan variable (as string)
+record(mbbo, "$(P)$(R)SCAN_VAR")
+{
+  field(DESC, "Scan variable")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)SPECS_SCAN_VAR")
+  field(VAL,  "0")
+}
+
+# Scan variable (as string)
+record(mbbi, "$(P)$(R)SCAN_VAR_RBV")
+{
+  field(DESC, "Scan variable Readback")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)SPECS_SCAN_VAR")
+  field(SCAN, "I/O Intr")
+}
