@@ -820,7 +820,7 @@ void SpecsAnalyser::specsAnalyserTask()
 
             if (status != asynError) {
                 // Check to see if acquisition is complete
-                if (numImagesCounter >= numImages) {
+                if ((numImagesCounter >= numImages && imageMode == ADImageMultiple) || (imageMode == ADImageSingle)) {
                     setIntegerParam(ADAcquire, 0);
                     debug(functionName, "Acquisition completed");
                 }
